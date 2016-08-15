@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { StatusBar, StyleSheet, View, Image, ToolbarAndroid } from 'react-native'
+import { StatusBar, StyleSheet, View, Text, ToolbarAndroid } from 'react-native'
 
 export default class ViewContainer extends Component {
 	render() {
 		return (
 			<View
-				style={ styles.backgroundImage }
+				style={ styles.container }
 			>
 				<StatusBar
-					backgroundColor='gray'
+					backgroundColor='#303F9F'
 					barStyle='light-content'
 				/>
 				<ToolbarAndroid
@@ -18,6 +18,7 @@ export default class ViewContainer extends Component {
 				/>
 				<View style={ styles.content }>
 					{ this.props.children }
+					<Text style={ styles.bottom }>Drupal 8 JSON View + React Native</Text>
 				</View>
 			</View>
 		)
@@ -25,7 +26,7 @@ export default class ViewContainer extends Component {
 }
 
 const styles = StyleSheet.create({
-	backgroundImage: {
+	container: {
 		flex: 1,
 		alignSelf: 'stretch',
 		backgroundColor: '#eee',
@@ -38,7 +39,16 @@ const styles = StyleSheet.create({
 	},
 
 	toolbar: {
-		backgroundColor: '#333',
-		height: 56
+		backgroundColor: '#3F51B5',
+		height: 56,
+		elevation: 5
+	},
+
+	bottom: {
+		backgroundColor: 'dimgray',
+		color: 'white',
+		textAlign: 'center',
+		lineHeight: 40,
+		textAlignVertical: 'center'
 	}
 })

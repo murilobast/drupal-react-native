@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, ListView, Text, Image, TouchableOpacity, RefreshControl } from 'react-native'
-import items from '../assets/items'
 
 export default class List extends Component {
 	constructor(props) {
@@ -10,7 +9,7 @@ export default class List extends Component {
 		let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
 		this.state = {
-			itemsDataSource: ds.cloneWithRows(items),
+			itemsDataSource: ds.cloneWithRows([]),
 			refreshing: false
 		}
 		// Evita bindar o this no metodo render (performance)
@@ -23,9 +22,7 @@ export default class List extends Component {
 	// Metodo para executar o refresh
 	_onRefresh() {
 		this.setState({ refreshing: true })
-		setTimeout(() => {
-			this._getNews()
-		}, 600)
+		this._getNews()
 	}
 
 	// Recupera materias do backend en drupal
@@ -54,6 +51,7 @@ export default class List extends Component {
 					// Chama o metodo para renderizar os items
 					renderRow={(item) => { return this._renderItemRow(item) }}
 					// Controla os states de refresh e checa se existe noticias novas
+					enableEmptySections={ true }
 					refreshControl={
 						<RefreshControl
 							refreshing={ this.state.refreshing }
@@ -67,7 +65,6 @@ export default class List extends Component {
 
 	// Meteodo para renderizar cada item da lista
 	_renderItemRow(item) {
-		console.log(item.uri)
 		return (
 			<TouchableOpacity
 				style={ styles.item }
@@ -105,7 +102,7 @@ const styles = StyleSheet.create({
 		fontSize: 28,
 		fontWeight: 'bold',
 		marginVertical: 10,
-		color: '#333',
+		color: '#212121',
 		paddingHorizontal: 10
 	},
 
@@ -113,14 +110,15 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 		borderRadius: 5,
 		backgroundColor: '#fff',
-		paddingBottom: 5
+		paddingBottom: 5,
+		elevation: 3
 	},
 
 	itemText: {
 		textAlign: 'left',
 		fontSize: 20,
 		fontWeight: 'bold',
-		color: '#333',
+		color: '#757575',
 		marginVertical: 10,
 		marginHorizontal: 12
 	}

@@ -8,6 +8,9 @@
   "dependencies": {
     "apsl-react-native-button": "^3.0.0",
     "react": "15.2.1",
-    "react-native": "0.29.1"
+    "react-native": "0.29.1",
+    "react-native-htmlview": "^0.5.0",
+    "react-native-material-kit": "^0.3.2",
+    "rnpm": "^1.9.0"
   }
 }
