@@ -12,7 +12,7 @@ export default class ViewContainer extends Component {
 					barStyle='light-content'
 				/>
 				<ToolbarAndroid
-					title={ 'Drupal Native' }
+					title={ 'Tec Imundo' }
 					style={ styles.toolbar }
 					titleColor='white'
 				/>

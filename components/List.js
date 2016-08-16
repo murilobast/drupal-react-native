@@ -43,7 +43,9 @@ export default class List extends Component {
 	render() {
 		return (
 			<View style={ styles.centered }>
-				<Text style={ styles.title }>Ultimas Noticias</Text>
+				<View style={ styles.topBar } >
+					<Text style={ styles.title }>DESTAQUES</Text>
+				</View>
 				<ListView
 					// Quantidade de itens para serem renderizados no primeiro scroll
 					initialListSize={ 12 }
@@ -74,7 +76,9 @@ export default class List extends Component {
 					style={ styles.image }
 					source={{ uri: item.uri }}
 				/>
-				<Text style={ styles.itemText }>{ item.title }</Text>
+				<View style={ styles.itemTextContainer }>
+					<Text style={ styles.itemText }>{ item.title }</Text>
+				</View>
 			</TouchableOpacity>
 		)
 	}
@@ -88,38 +92,46 @@ export default class List extends Component {
 const styles = StyleSheet.create({
 	centered: {
 		flex: 1,
-		justifyContent: 'center',
-		paddingHorizontal: 10
+		justifyContent: 'center'
 	},
 
 	image: {
 		flex: 1,
-		height: 100,
-		marginBottom: 5
+		height: 200
+	},
+
+	topBar: {
+		elevation: 3,
+		paddingVertical: 8,
+		backgroundColor: '#fff'
 	},
 
 	title: {
-		fontSize: 28,
-		fontWeight: 'bold',
-		marginVertical: 10,
+		fontSize: 16,
+		textAlign: 'center',
 		color: '#212121',
 		paddingHorizontal: 10
 	},
 
 	item: {
 		marginBottom: 20,
-		borderRadius: 5,
 		backgroundColor: '#fff',
 		paddingBottom: 5,
-		elevation: 3
+		elevation: 1,
+		overflow: 'hidden'
+	},
+
+	itemTextContainer: {
+		marginVertical: 20,
+		paddingHorizontal: 20,
+		borderLeftWidth: 3,
+		borderLeftColor: '#3F51B5'
 	},
 
 	itemText: {
 		textAlign: 'left',
-		fontSize: 20,
-		fontWeight: 'bold',
+		fontSize: 18,
 		color: '#757575',
-		marginVertical: 10,
-		marginHorizontal: 12
+
 	}
 })

@@ -55,11 +55,11 @@ const styles = StyleSheet.create({
 
 	image: {
 		flex: 1,
-		height: 100
+		height: 200
 	},
 
 	img: {
-		height: height / 3,
+		height: height / 4,
 		width: width - 20,
 		resizeMode: Image.resizeMode.contain
 	},
