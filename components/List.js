@@ -1,5 +1,12 @@
+/*
+	Recupera a lista de materias servidas pelo drupal e renderiza uma lista com imagem e titulo
+*/
 import React, { Component } from 'react'
-import { StyleSheet, View, ListView, Text, Image, TouchableOpacity, RefreshControl } from 'react-native'
+import { StyleSheet, Dimensions, View, ListView, Text, Image, TouchableOpacity, RefreshControl } from 'react-native'
+// Local imports
+import Precontent from './Precontent'
+
+const { height, width } = Dimensions.get('window')
 
 export default class List extends Component {
 	constructor(props) {
@@ -42,13 +49,10 @@ export default class List extends Component {
 
 	render() {
 		return (
-			<View style={ styles.centered }>
-				<View style={ styles.topBar } >
-					<Text style={ styles.title }>DESTAQUES</Text>
-				</View>
+			<View style={ styles.list }>
 				<ListView
 					// Quantidade de itens para serem renderizados no primeiro scroll
-					initialListSize={ 12 }
+					initialListSize={ 6 }
 					dataSource={ this.state.itemsDataSource }
 					// Chama o metodo para renderizar os items
 					renderRow={(item) => { return this._renderItemRow(item) }}
@@ -79,6 +83,7 @@ export default class List extends Component {
 				<View style={ styles.itemTextContainer }>
 					<Text style={ styles.itemText }>{ item.title }</Text>
 				</View>
+				<Precontent data={ item }/>
 			</TouchableOpacity>
 		)
 	}
@@ -90,14 +95,14 @@ export default class List extends Component {
 }
 
 const styles = StyleSheet.create({
-	centered: {
+	list: {
 		flex: 1,
 		justifyContent: 'center'
 	},
 
 	image: {
 		flex: 1,
-		height: 200
+		height: width * .58
 	},
 
 	topBar: {
@@ -106,32 +111,25 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff'
 	},
 
-	title: {
-		fontSize: 16,
-		textAlign: 'center',
-		color: '#212121',
-		paddingHorizontal: 10
-	},
-
 	item: {
-		marginBottom: 20,
+		marginVertical: 10,
 		backgroundColor: '#fff',
 		paddingBottom: 5,
-		elevation: 1,
-		overflow: 'hidden'
+		elevation: 2,
+		overflow: 'hidden',
+		borderRadius: 3,
+		marginHorizontal: 10
 	},
 
 	itemTextContainer: {
 		marginVertical: 20,
-		paddingHorizontal: 20,
-		borderLeftWidth: 3,
-		borderLeftColor: '#3F51B5'
+		paddingHorizontal: 20
 	},
 
 	itemText: {
-		textAlign: 'left',
-		fontSize: 18,
-		color: '#757575',
-
+		textAlign: 'center',
+		fontSize: 17,
+		lineHeight: 26,
+		color: 'grey'
 	}
 })

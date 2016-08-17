@@ -1,25 +1,44 @@
 import React, { Component } from 'react'
-import { StatusBar, StyleSheet, View, Text, ToolbarAndroid } from 'react-native'
+import { StatusBar, StyleSheet, DrawerLayoutAndroid, View, Text, ToolbarAndroid } from 'react-native'
 
 export default class ViewContainer extends Component {
 	render() {
 		return (
-			<View
-				style={ styles.container }
+			<DrawerLayoutAndroid
+				ref={(ref) => this._drawer = ref }
+				drawerWidth={ 300 }
+				drawerPosition={ DrawerLayoutAndroid.positions.Left }
+				renderNavigationView={ this._renderNavigationView }
 			>
-				<StatusBar
-					backgroundColor='#303F9F'
-					barStyle='light-content'
-				/>
-				<ToolbarAndroid
-					title={ 'Tec Imundo' }
-					style={ styles.toolbar }
-					titleColor='white'
-				/>
-				<View style={ styles.content }>
-					{ this.props.children }
-					<Text style={ styles.bottom }>Drupal 8 JSON View + React Native</Text>
+				<View
+					style={ styles.container }
+				>
+					<StatusBar
+						backgroundColor='#008ae5'
+						barStyle='light-content'
+					/>
+					<ToolbarAndroid 
+						style={ styles.toolbar }
+						navIcon={ require('image!ic_menu_white_24dp') }
+						onIconClicked={() => { this._drawer.openDrawer() }}
+					>
+						<Text style={ styles.titleFirst }>D8</Text>
+						<Text style={ styles.titleSecond }>NATIVE</Text>
+					</ToolbarAndroid>
+					<View style={ styles.content }>
+						{ this.props.children }
+					</View>
 				</View>
+			</DrawerLayoutAndroid>
+		)
+	}
+
+	_renderNavigationView() {
+		// Temporario. Renderiza o conteudo do drawer
+		return (
+			<View style={{flex: 1, backgroundColor: '#fff'}}>
+				<Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
+				<Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>Que coisa, não?</Text>
 			</View>
 		)
 	}
@@ -38,17 +57,19 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 
-	toolbar: {
-		backgroundColor: '#3F51B5',
-		height: 56,
-		elevation: 5
+	titleFirst: {
+		color: 'rgba(255, 255, 255, .7)',
+		fontSize: 20
 	},
 
-	bottom: {
-		backgroundColor: 'dimgray',
-		color: 'white',
-		textAlign: 'center',
-		lineHeight: 40,
-		textAlignVertical: 'center'
+	titleSecond: {
+		color: 'rgba(255, 255, 255, 1)',
+		fontSize: 20,
+		fontWeight: 'bold'
+	},
+
+	toolbar: {
+		backgroundColor: '#0099ff',
+		height: 56
 	}
 })

@@ -1,22 +1,26 @@
 import React, { Component } from 'react'
-import { Navigator } from 'react-native'
+import { Navigator, BackAndroid } from 'react-native'
 // Local imports
-import Login from '../components/Login'
 import List from '../components/List'
 import Item from '../components/Item'
+
+let navigator; 
+
+BackAndroid.addEventListener('hardwareBackPress', () => {
+	if (navigator && navigator.getCurrentRoutes().length > 1) {
+		navigator.pop()
+
+		return true
+	}
+
+	return false
+})
 
 export default class AppNavigator extends Component {
 	_renderScene(route, navigator) {
 		let globalNavigatorProps = { navigator }
 
 		switch (route.name) {
-			case 'login':
-				return (
-					<Login
-						{ ...globalNavigatorProps }
-					/>
-				)
-
 			case 'list':
 				return (
 					<List
@@ -44,11 +48,11 @@ export default class AppNavigator extends Component {
 	render() {
 		return (
 			<Navigator
-				initialRoute={ { name: 'list' } }
-				ref='appNavigator'
+				initialRoute={{ name: 'list' }}
+				ref={(nav) => { navigator = nav }}
 				renderScene={ this._renderScene }
 				configureScene={(route) => ({
-					...route.sceneConfig || Navigator.SceneConfigs.HorizontalSwipeJump 
+					...route.sceneConfig || Navigator.SceneConfigs.FloatFromBottomAndroid 
 				})}
 			/>
 		)
