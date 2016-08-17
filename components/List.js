@@ -6,6 +6,7 @@ import { StyleSheet, Dimensions, View, ListView, Text, Image, TouchableOpacity, 
 // Local imports
 import Precontent from './Precontent'
 
+const url = 'http://wm1.com.br/filter/all/all?&page=0&limit=18&advertise=true'
 const { height, width } = Dimensions.get('window')
 
 export default class List extends Component {
@@ -34,12 +35,12 @@ export default class List extends Component {
 
 	// Recupera materias do backend en drupal
 	_getNews() {
-		return fetch('http://rest.murilobastos.com/news')
+		return fetch(url)
 			.then((response) => response.json())
 			.then((responseJson) => {
 				let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
-				this.setState({ itemsDataSource: ds.cloneWithRows(responseJson), refreshing: false })
+				this.setState({ itemsDataSource: ds.cloneWithRows(responseJson.nodes), refreshing: false })
 				return;
 			})
 			.catch((error) => {
@@ -71,6 +72,9 @@ export default class List extends Component {
 
 	// Meteodo para renderizar cada item da lista
 	_renderItemRow(item) {
+		if (item.image)
+			item.uri = item.image.src
+
 		return (
 			<TouchableOpacity
 				style={ styles.item }

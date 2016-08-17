@@ -17,7 +17,7 @@ export default class Precontent extends Component {
 					</View>
 					<View style={ styles.center }>
 						<Text style={ styles.date }>
-							{ item.created }
+							{ item.tag }
 						</Text>
 					</View>
 					<View style={ styles.item }>

@@ -14,7 +14,7 @@ export default class ViewContainer extends Component {
 					style={ styles.container }
 				>
 					<StatusBar
-						backgroundColor='#008ae5'
+						backgroundColor='#d10035'
 						barStyle='light-content'
 					/>
 					<ToolbarAndroid 
@@ -22,8 +22,8 @@ export default class ViewContainer extends Component {
 						navIcon={ require('image!ic_menu_white_24dp') }
 						onIconClicked={() => { this._drawer.openDrawer() }}
 					>
-						<Text style={ styles.titleFirst }>D8</Text>
-						<Text style={ styles.titleSecond }>NATIVE</Text>
+						<Text style={ styles.titleFirst }>REVISTA</Text>
+						<Text style={ styles.titleSecond }>WM1</Text>
 					</ToolbarAndroid>
 					<View style={ styles.content }>
 						{ this.props.children }
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 	},
 
 	toolbar: {
-		backgroundColor: '#0099ff',
+		backgroundColor: '#f3123c',
 		height: 56
 	}
 })

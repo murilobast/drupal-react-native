@@ -15,6 +15,8 @@ const { height, width } = Dimensions.get('window')
 export default class Item extends Component {
 	render() {
 		let item = this.props.data
+		if (item.image)
+			item.uri = item.image.src
 
 		return (
 			<ParallaxScrollView
@@ -28,9 +30,9 @@ export default class Item extends Component {
 			>
 				<Text style={ styles.title }>{ item.title }</Text>
 				<Precontent data={ item }/>
-				<Author data={ item.author }/>
+				<Author data={ item.tag }/>
 				<View style={ styles.textContainer }>
-					<Body data={ item.body }/>
+					<Text>{ item.subtitle }</Text>					
 				</View>
 			</ParallaxScrollView>
 		)
