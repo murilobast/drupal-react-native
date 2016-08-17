@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 	},
 	
 	authorText: {
-		color: '#008ae5',
+		color: '#f3123c',
 		fontWeight: 'bold',
 		fontSize: 16,
 		backgroundColor: '#fff',

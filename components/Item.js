@@ -28,11 +28,11 @@ export default class Item extends Component {
 					/>
 				)}
 			>
-				<Text style={ styles.title }>{ item.title }</Text>
+				<Text style={ styles.title }>{ item.subtitle }</Text>
 				<Precontent data={ item }/>
 				<Author data={ item.tag }/>
 				<View style={ styles.textContainer }>
-					<Text>{ item.subtitle }</Text>					
+					<Text>To be done</Text>
 				</View>
 			</ParallaxScrollView>
 		)

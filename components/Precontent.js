@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
 
 	date: {
 		fontSize: 16,
-		color: '#008ae5'
+		color: '#f3123c'
 	},
 
 	author: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 	},
 	
 	authorText: {
-		color: '#008ae5',
+		color: '#d10035',
 		fontWeight: 'bold',
 		fontSize: 16
 	}
