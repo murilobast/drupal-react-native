@@ -4,6 +4,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, ListView, Text, Image, TouchableOpacity, RefreshControl } from 'react-native'
 // Local imports
+import Tabs from './Tabs'
 import Precontent from './Precontent'
 
 const { height, width } = Dimensions.get('window')
@@ -21,6 +22,7 @@ export default class List extends Component {
 		}
 		// Evita bindar o this no metodo render (performance)
 		this._onRefresh = this._onRefresh.bind(this)
+		this._getNews = this._getNews.bind(this)
 
 		// Recupera materias no primeiro load (não é uma boa pratica chamar aqui)
 		this._getNews();
@@ -33,8 +35,8 @@ export default class List extends Component {
 	}
 
 	// Recupera materias do backend en drupal
-	_getNews() {
-		return fetch('http://rest.murilobastos.com/news')
+	_getNews(key = 'all') {
+		return fetch('http://rest.murilobastos.com/news/' + key)
 			.then((response) => response.json())
 			.then((responseJson) => {
 				let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
@@ -48,8 +50,16 @@ export default class List extends Component {
 	}
 
 	render() {
+		let tabs = [
+			{ name: 'Destaques', key: 'all' },
+			{ name: 'Tecnologia', key: 'tecnologia' },
+			{ name: 'Jogos', key: 'jogos' },
+			{ name: 'Cinema', key: 'cinema' }
+		]
+
 		return (
 			<View style={ styles.list }>
+				<Tabs data={ tabs } getData={ this._getNews }/>
 				<ListView
 					// Quantidade de itens para serem renderizados no primeiro scroll
 					initialListSize={ 6 }
