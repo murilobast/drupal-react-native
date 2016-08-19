@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Navigator, BackAndroid } from 'react-native'
+// import PushNotification from 'react-native-push-notification'
 // Local imports
 import List from '../components/List'
 import Item from '../components/Item'
@@ -37,6 +38,7 @@ export default class AppNavigator extends Component {
 				)
 
 			default:
+
 				return (
 					<Login
 						{ ...globalNavigatorProps }
@@ -58,3 +60,31 @@ export default class AppNavigator extends Component {
 		)
 	}
 }
+
+// Push notifications tests
+// PushNotification.configure({
+// 	onNotification: function(notification) {
+// 		let nid = notification.nid
+// 		let url = 'http://rest.murilobastos.com/news/all/' + nid
+
+// 		fetch(url)
+// 			.then((response) => response.json())
+// 			.then((responseJson) => {
+// 				navigator.push({ name: 'item', data: responseJson[0] })
+// 				return;
+// 			})
+// 			.catch((error) => {
+// 				console.error(error)
+// 			})
+// 	},
+
+// 	popInitialNotification: true,
+
+// 	requestPermissions: true
+// })
+
+// PushNotification.localNotificationSchedule({
+// 	message: "Veja como é montada uma placa-mãe da Asus dentro de uma fábrica da Foxconn no Brasil",
+// 	date: new Date(Date.now() + (1 * 1000)),
+// 	nid: 13
+// })

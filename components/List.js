@@ -2,7 +2,7 @@
 	Recupera a lista de materias servidas pelo drupal e renderiza uma lista com imagem e titulo
 */
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, View, ListView, Text, Image, TouchableOpacity, RefreshControl } from 'react-native'
+import { StyleSheet, Dimensions, View, ListView, Text, Image, TouchableNativeFeedback, RefreshControl } from 'react-native'
 // Local imports
 import Tabs from './Tabs'
 import Precontent from './Precontent'
@@ -82,19 +82,20 @@ export default class List extends Component {
 	// Meteodo para renderizar cada item da lista
 	_renderItemRow(item) {
 		return (
-			<TouchableOpacity
-				style={ styles.item }
+			<TouchableNativeFeedback
 				onPress={(e) => { this._navigateToItem(item) }}
 			>
-				<Image
-					style={ styles.image }
-					source={{ uri: item.uri }}
-				/>
-				<View style={ styles.itemTextContainer }>
-					<Text style={ styles.itemText }>{ item.title }</Text>
+				<View style={ styles.item }>
+					<Image
+						style={ styles.image }
+						source={{ uri: item.uri }}
+					/>
+					<View style={ styles.itemTextContainer }>
+						<Text style={ styles.itemText }>{ item.title }</Text>
+					</View>
+					<Precontent data={ item }/>
 				</View>
-				<Precontent data={ item }/>
-			</TouchableOpacity>
+			</TouchableNativeFeedback>
 		)
 	}
 

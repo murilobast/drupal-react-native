@@ -9,6 +9,7 @@ import ParallaxScrollView from 'react-native-parallax-scroll-view'
 import Body from './Body'
 import Precontent from './Precontent'
 import Author from './Author'
+import GalleryView from './GalleryView'
 
 const { height, width } = Dimensions.get('window')
 
@@ -32,6 +33,7 @@ export default class Item extends Component {
 				<View style={ styles.textContainer }>
 					<Body data={ item.body }/>
 				</View>
+				<GalleryView/>
 			</ParallaxScrollView>
 		)
 	}

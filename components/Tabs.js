@@ -2,7 +2,7 @@
 	Renderiza os tabs no topo da listagem
 */
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, View, Animated, ScrollView, TouchableOpacity, Text } from 'react-native'
+import { StyleSheet, Dimensions, View, Animated, ScrollView, TouchableNativeFeedback, Text } from 'react-native'
 import TabNavigator from 'react-native-tab-navigator'
 
 const { height, width } = Dimensions.get('window')
@@ -38,13 +38,14 @@ export default class Tabs extends Component {
 				>
 					{tabs.map((tab, i) => {
 						return (
-							<TouchableOpacity
+							<TouchableNativeFeedback
 								key={ i }
-								style={ styles.tab }
 								onPress={(e) => { this._updateList(tab.key) }}
 							>
-								<Text style={ styles.tabTitle }> { tab.name } </Text>
-							</TouchableOpacity>
+								<View style={ styles.tab }>
+									<Text style={ styles.tabTitle }> { tab.name } </Text>
+								</View>
+							</TouchableNativeFeedback>
 						)
 					})}
 
