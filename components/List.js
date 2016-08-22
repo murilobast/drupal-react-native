@@ -2,7 +2,7 @@
 	Recupera a lista de materias servidas pelo drupal e renderiza uma lista com imagem e titulo
 */
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, View, ListView, Text, Image, TouchableNativeFeedback, RefreshControl } from 'react-native'
+import { StyleSheet, AsyncStorage, Dimensions, View, ListView, Text, Image, TouchableNativeFeedback, RefreshControl } from 'react-native'
 // Local imports
 import Tabs from './Tabs'
 import Precontent from './Precontent'
@@ -25,7 +25,7 @@ export default class List extends Component {
 		this._getNews = this._getNews.bind(this)
 
 		// Recupera materias no primeiro load (não é uma boa pratica chamar aqui)
-		this._getNews();
+		this._checkCache(0, 'all')
 	}
 
 	// Metodo para executar o refresh
@@ -34,14 +34,38 @@ export default class List extends Component {
 		this._getNews()
 	}
 
+	// Cachea a resposta json
+	_checkCache(page = 0, key) {
+		AsyncStorage.getItem('newsData-' + key + page).then((newsString) => {
+			if (newsString != null) {
+				let newsItems = JSON.parse(newsString)
+
+				AsyncStorage.getItem('time-' + key + page).then((timeString) => {
+					let lastCache = new Date(parseInt(timeString)).getTime()
+					let now = new Date().getTime()
+					let diffTime = now - lastCache
+					let expireTime = 1000 * 60 * 1
+
+					console.log(timeString, lastCache, now, diffTime, expireTime)
+					if (diffTime >= expireTime)
+						this._getNews(page, key)
+					else
+						this._setNewsData(page, key, newsItems, true)
+				})
+			} else {
+				this._getNews(page, key)
+			}
+
+		}).done()
+	}
+
 	// Recupera materias do backend en drupal
-	_getNews(key = 'all') {
+	_getNews(page = 0, key = 'all') {
 		return fetch('http://rest.murilobastos.com/news/' + key)
 			.then((response) => response.json())
 			.then((responseJson) => {
-				let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
-				this.setState({ itemsDataSource: ds.cloneWithRows(responseJson), refreshing: false })
+				this._setNewsData(page, key, responseJson)
 				return
 			})
 			.catch((error) => {
@@ -49,12 +73,21 @@ export default class List extends Component {
 			})
 	}
 
+	_setNewsData(page = 0, key = 'all', data, fromCache = false) {
+		let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+
+		this.setState({ itemsDataSource: ds.cloneWithRows(data), refreshing: false })
+		console.log('newsData-' + key + page, fromCache)
+		AsyncStorage.setItem('newsData-' + key + page, JSON.stringify(data))
+		AsyncStorage.setItem('time-' + key + page, new Date().getTime().toString())
+	}
+
 	render() {
 		let tabs = [
-			{ name: 'Destaques', key: 'all' },
-			{ name: 'Tecnologia', key: 'tecnologia' },
-			{ name: 'Jogos', key: 'jogos' },
-			{ name: 'Cinema', key: 'cinema' }
+			{ name: 'DESTAQUES', key: 'all' },
+			{ name: 'TECNOLOGIA', key: 'tecnologia' },
+			{ name: 'JOGOS', key: 'jogos' },
+			{ name: 'CINEMA', key: 'cinema' }
 		]
 
 		return (

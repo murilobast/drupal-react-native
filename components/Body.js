@@ -5,6 +5,8 @@
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, Image } from 'react-native'
 import HTMLRender from 'react-native-html-render'
+// Local imports
+import GalleryView from './GalleryView'
 
 const { height, width } = Dimensions.get('window')
 
@@ -17,8 +19,22 @@ export default class Body extends Component {
 				stylesheet={ htmlStylesheet }
 				value={ html }
 				onLinkPress={() => { }}
+				renderNode={ this._renderNode }
 			/>
 		)
+	}
+	
+	_renderNode(node, index, parent, type) {
+		let name = node.name
+
+		if (name === 'drupal-entity') {
+			let uid = node.attribs['data-entity-uuid']
+			let url = 'http://rest.murilobastos.com/gallery/' + uid
+
+			return (
+				<GalleryView url={ url }/>
+			)
+		}
 	}
 }
 
