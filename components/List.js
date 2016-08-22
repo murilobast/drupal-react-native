@@ -42,7 +42,7 @@ export default class List extends Component {
 				let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
 				this.setState({ itemsDataSource: ds.cloneWithRows(responseJson), refreshing: false })
-				return;
+				return
 			})
 			.catch((error) => {
 				console.error(error)

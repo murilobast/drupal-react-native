@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Navigator, BackAndroid } from 'react-native'
-// import PushNotification from 'react-native-push-notification'
+import PushNotification from 'react-native-push-notification'
 // Local imports
 import List from '../components/List'
 import Item from '../components/Item'
+import NotificationHandler from './NotificationHandler'
 
 let navigator; 
 
@@ -18,6 +19,26 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 })
 
 export default class AppNavigator extends Component {
+	constructor(props) {
+		super(props)
+	
+		this.state = { pushed: false }
+	}
+	componentDidMount() {
+		NotificationHandler((data) => {
+			// Gambis pra não ir duas vezes pra mesma rota
+			if (this.state.pushed)
+				return
+			
+			this.setState({ pushed: true })
+			navigator.push({ name: 'item', data: data })
+			// Gambis pra poder receber notificação depois de renderizar
+			setTimeout(() => {
+				this.setState({ pushed: false })
+			}, 1000)
+		})
+	}
+
 	_renderScene(route, navigator) {
 		let globalNavigatorProps = { navigator }
 
@@ -60,31 +81,3 @@ export default class AppNavigator extends Component {
 		)
 	}
 }
-
-// Push notifications tests
-// PushNotification.configure({
-// 	onNotification: function(notification) {
-// 		let nid = notification.nid
-// 		let url = 'http://rest.murilobastos.com/news/all/' + nid
-
-// 		fetch(url)
-// 			.then((response) => response.json())
-// 			.then((responseJson) => {
-// 				navigator.push({ name: 'item', data: responseJson[0] })
-// 				return;
-// 			})
-// 			.catch((error) => {
-// 				console.error(error)
-// 			})
-// 	},
-
-// 	popInitialNotification: true,
-
-// 	requestPermissions: true
-// })
-
-// PushNotification.localNotificationSchedule({
-// 	message: "Veja como é montada uma placa-mãe da Asus dentro de uma fábrica da Foxconn no Brasil",
-// 	date: new Date(Date.now() + (1 * 1000)),
-// 	nid: 13
-// })

@@ -3,7 +3,6 @@
 */
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, Animated, ScrollView, TouchableNativeFeedback, Text } from 'react-native'
-import TabNavigator from 'react-native-tab-navigator'
 
 const { height, width } = Dimensions.get('window')
 const SPRING_CONFIG = { tension: 5, friction: 3 }
