@@ -4,20 +4,15 @@ export default function NotificationHandler(callback = () => {}) {
 	PushNotification.configure({
 		onRegister: function(data) {
 			console.log('TOKEN:', data.token)
-			fetch('http://rest.murilobastos.com/entity/push_notifications_token', {
+			fetch('http://drupal.murilobastos.com/push/push_notifications', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					'Accept': 'application/json',
-					'Authorization': 'Basic MDo=' // usuario es enha encodados (user 0 = anonimo)
+					'Accept': 'application/json'
  				},
 				body: JSON.stringify({
-					network: {
-						value: 'android'
-					},
-					token: {
-						value: data.token
-					}
+					type: 'android',
+					token: data.token
 				})
 			})
 				.then((response) => response.json())
@@ -31,10 +26,10 @@ export default function NotificationHandler(callback = () => {}) {
 				})
 		},
 
-		onNotification: function(notification, b) {
-			console.log('Notification recieved')
-			let nid = notification.data.nid
-
+		onNotification: function(notification) {
+			console.log('Notification recieved', notification)
+			let nid =  notification.nid
+			
 			if (!notification.foreground)
 				fetch('http://rest.murilobastos.com/news/all/' + nid)
 					.then((response) => response.json())
@@ -50,7 +45,7 @@ export default function NotificationHandler(callback = () => {}) {
 					console.log('Ignoring app is opened')
 		},
 
-		senderID: "95803460496",
+		senderID: '95803460496',
 
 		popInitialNotification: true,
 

@@ -15,7 +15,6 @@
     "react-native-html-render": "^1.0.4",
     "react-native-parallax-scroll-view": "^0.19.0",
     "react-native-push-notification": "^2.0.2",
-    "react-native-storage": "^0.1.2",
     "rnpm": "^1.9.0"
   }
 }
