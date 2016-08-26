@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { StyleSheet, Dimensions, Image } from 'react-native'
 import HTMLRender from 'react-native-html-render'
 // Local imports
+import colors from '../helpers/colors'
 import GalleryView from './GalleryView'
 
 const { height, width } = Dimensions.get('window')
@@ -52,7 +53,7 @@ const htmlStylesheet = StyleSheet.create({
 
 	a: {
 		fontSize: 18,
-		color: '#008ae5'
+		color: colors.main
 	},
 
 	em: {

@@ -2,7 +2,18 @@
 	Recupera a lista de materias servidas pelo drupal e renderiza uma lista com imagem e titulo
 */
 import React, { Component } from 'react'
-import { StyleSheet, AsyncStorage, Dimensions, View, ListView, Text, Image, TouchableNativeFeedback, RefreshControl } from 'react-native'
+import {
+	StyleSheet,
+	AsyncStorage,
+	ActivityIndicator,
+	Dimensions,
+	View,
+	ListView,
+	Text,
+	Image,
+	TouchableNativeFeedback,
+	RefreshControl
+} from 'react-native'
 // Local imports
 import Tabs from './Tabs'
 import Precontent from './Precontent'
@@ -18,24 +29,33 @@ export default class List extends Component {
 
 		this.state = {
 			itemsDataSource: ds.cloneWithRows([]),
-			refreshing: false
+			refreshing: false,
+			loading: true,
+			key: 'news'
 		}
 		// Evita bindar o this no metodo render (performance)
-		this._onRefresh = this._onRefresh.bind(this)
 		this._getNews = this._getNews.bind(this)
+		this._onRefresh = this._onRefresh.bind(this)
+		this._checkCache = this._checkCache.bind(this)
+		this._setNewsData = this._setNewsData.bind(this)
 
 		// Recupera materias no primeiro load (não é uma boa pratica chamar aqui)
-		this._checkCache(0, 'all')
+		this._checkCache()
 	}
 
 	// Metodo para executar o refresh
 	_onRefresh() {
 		this.setState({ refreshing: true })
-		this._getNews()
+		this._checkCache()
 	}
 
 	// Cachea a resposta json
 	_checkCache(page = 0, key) {
+		if (typeof key === 'undefined')
+			key = this.state.key
+		else 
+			this.setState({ key: key })
+
 		AsyncStorage.getItem('newsData-' + key + page).then((newsString) => {
 			if (newsString != null) {
 				let newsItems = JSON.parse(newsString)
@@ -60,8 +80,10 @@ export default class List extends Component {
 	}
 
 	// Recupera materias do backend en drupal
-	_getNews(page = 0, key = 'all') {
-		return fetch('http://rest.murilobastos.com/news/' + key)
+	_getNews(page = 0, key = 'news') {
+		let url = 'http://drupal.murilobastos.com/' + key
+		console.log(url)
+		return fetch(url)
 			.then((response) => response.json())
 			.then((responseJson) => {
 
@@ -73,29 +95,34 @@ export default class List extends Component {
 			})
 	}
 
-	_setNewsData(page = 0, key = 'all', data, fromCache = false) {
+	_setNewsData(page = 0, key = 'news', data, fromCache = false) {
 		let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
-		this.setState({ itemsDataSource: ds.cloneWithRows(data), refreshing: false })
-		console.log('newsData-' + key + page, fromCache)
+		this.setState({
+			itemsDataSource: ds.cloneWithRows(data),
+			refreshing: false,
+			loading: false
+		})
+
 		AsyncStorage.setItem('newsData-' + key + page, JSON.stringify(data))
 		AsyncStorage.setItem('time-' + key + page, new Date().getTime().toString())
 	}
 
 	render() {
 		let tabs = [
-			{ name: 'DESTAQUES', key: 'all' },
-			{ name: 'TECNOLOGIA', key: 'tecnologia' },
-			{ name: 'JOGOS', key: 'jogos' },
-			{ name: 'CINEMA', key: 'cinema' }
+			{ name: 'RECENTES', key: 'news' },
+			{ name: 'DESTAQUES', key: 'popular' }
 		]
 
 		return (
 			<View style={ styles.list }>
-				<Tabs data={ tabs } getData={ this._getNews }/>
+				<Tabs data={ tabs } getData={ this._checkCache } />
 				<ListView
 					// Quantidade de itens para serem renderizados no primeiro scroll
 					initialListSize={ 6 }
+					// Define quantos cards devem ser renderizados abaixo da area visivel
+					scrollRenderAheadDistance={ 2 }
+					// Define qual é a fonte de dados da qual a ListView vai se "alimentar"
 					dataSource={ this.state.itemsDataSource }
 					// Chama o metodo para renderizar os items
 					renderRow={(item) => { return this._renderItemRow(item) }}
@@ -107,6 +134,12 @@ export default class List extends Component {
 							onRefresh={ this._onRefresh }
 						/>
 					}
+				/>
+				<ActivityIndicator
+					color={ '#0099ff' }
+					animating={ this.state.loading }
+					size={ 'large' }
+					style={ styles.centering }
 				/>
 			</View>
 		)
@@ -121,7 +154,7 @@ export default class List extends Component {
 				<View style={ styles.item }>
 					<Image
 						style={ styles.image }
-						source={{ uri: item.uri }}
+						source={{ uri: item.image }}
 					/>
 					<View style={ styles.itemTextContainer }>
 						<Text style={ styles.itemText }>{ item.title }</Text>
@@ -139,6 +172,14 @@ export default class List extends Component {
 }
 
 const styles = StyleSheet.create({
+	centering: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0
+	},
+
 	list: {
 		flex: 1,
 		justifyContent: 'center'

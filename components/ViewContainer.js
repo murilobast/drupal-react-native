@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { StatusBar, StyleSheet, DrawerLayoutAndroid, View, Text, ToolbarAndroid } from 'react-native'
+// Local imports
+import colors from '../helpers/colors'
 
 export default class ViewContainer extends Component {
 	render() {
@@ -14,7 +16,7 @@ export default class ViewContainer extends Component {
 					style={ styles.container }
 				>
 					<StatusBar
-						backgroundColor='#008ae5'
+						backgroundColor={ colors.mainDarker }
 						barStyle='light-content'
 					/>
 					<ToolbarAndroid 
@@ -34,7 +36,7 @@ export default class ViewContainer extends Component {
 	}
 
 	_renderNavigationView() {
-		// Temporario. Renderiza o conteudo do drawer
+		// Temporario. Renderiza o conteudo do drawer (tem que mudar)
 		return (
 			<View style={{flex: 1, backgroundColor: '#fff'}}>
 				<Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
 	},
 
 	toolbar: {
-		backgroundColor: '#0099ff',
+		backgroundColor: colors.main,
 		height: 56
 	}
 })

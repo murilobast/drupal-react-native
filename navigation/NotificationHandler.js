@@ -30,8 +30,8 @@ export default function NotificationHandler(callback = () => {}) {
 			console.log('Notification recieved', notification)
 			let nid =  notification.nid
 			
-			if (!notification.foreground)
-				fetch('http://rest.murilobastos.com/news/all/' + nid)
+			if (!notification.foreground && typeof nid !== 'undefined')
+				fetch('http://drupal.murilobastos.com/news/news/' + nid)
 					.then((response) => response.json())
 					.then((responseJson) => {
 						
@@ -42,7 +42,7 @@ export default function NotificationHandler(callback = () => {}) {
 						console.error(error)
 					})
 				else
-					console.log('Ignoring app is opened')
+					console.log("Ignoring app is opened, or there's no NID")
 		},
 
 		senderID: '95803460496',

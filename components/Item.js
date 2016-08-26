@@ -22,7 +22,7 @@ export default class Item extends Component {
 				renderBackground={() => (
 					<Image
 						style={ styles.parallax }
-						source={{ uri: item.uri }}
+						source={{ uri: item.image }}
 					/>
 				)}
 			>

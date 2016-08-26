@@ -3,6 +3,8 @@
 */
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, Animated, ScrollView, TouchableNativeFeedback, Text } from 'react-native'
+// Local imports
+import colors from '../helpers/colors'
 
 const { height, width } = Dimensions.get('window')
 const SPRING_CONFIG = { tension: 5, friction: 3 }
@@ -12,7 +14,7 @@ export default class Tabs extends Component {
 		super(props)
 
 		this.state = {
-			selectedTab: 'all',
+			selectedTab: 'news',
 			pan: new Animated.ValueXY(),
 			indicatorPos: 0
 		}
@@ -73,18 +75,18 @@ export default class Tabs extends Component {
 	_updateList(key) {
 		this.setState({ selectedTab: key })
 		this._moveIndicator(key)
-		this.props.getData(key)
+		this.props.getData(0, key)
 	}
 }
 
 const styles = StyleSheet.create({
 	container: {
 		position: 'relative',
-		height: 48
+		height: 42
 	},
 	
 	tabs: {
-		backgroundColor: '#0099ff',
+		backgroundColor: colors.main,
 		position: 'relative',
 		elevation: 3
 	},
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
 
 	tabTitle: {
 		color: '#fff',
-		fontSize: 18
+		fontSize: 16
 	},
 
 	indicator: {

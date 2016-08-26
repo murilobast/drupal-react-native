@@ -3,6 +3,8 @@
 */
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, Text } from 'react-native'
+// Local imports
+import colors from '../helpers/colors'
 
 const { height, width } = Dimensions.get('window')
 
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
 	},
 	
 	authorText: {
-		color: '#008ae5',
+		color: colors.main,
 		fontWeight: 'bold',
 		fontSize: 16,
 		backgroundColor: '#fff',

@@ -1,18 +1,20 @@
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, Image, Text } from 'react-native'
+// Local imports
+import colors from '../helpers/colors'
 
 const { height, width } = Dimensions.get('window')
 
 export default class Precontent extends Component {
 	render() {
 		let item = this.props.data
-
+		
 		return (
 			<View>
 				<View style={ styles.container }>
 					<View style={ styles.item }>
 						<Text style={ styles.date }>
-							1.860 views
+							{ item.views || 0 } views
 						</Text>
 					</View>
 					<View style={ styles.center }>
@@ -58,23 +60,12 @@ const styles = StyleSheet.create({
 
 	date: {
 		fontSize: 16,
-		color: '#008ae5'
+		color: colors.main
 	},
 
 	author: {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-	},
-
-	authorPre: {
-		color: '#808080',
-		marginRight: 5
-	},
-	
-	authorText: {
-		color: '#008ae5',
-		fontWeight: 'bold',
-		fontSize: 16
 	}
 })
