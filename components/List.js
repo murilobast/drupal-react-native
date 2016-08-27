@@ -1,5 +1,7 @@
 /*
 	Recupera a lista de materias servidas pelo drupal e renderiza uma lista com imagem e titulo
+
+	Código está gigante, precisa ser componetizado
 */
 import React, { Component } from 'react'
 import {
@@ -70,7 +72,7 @@ export default class List extends Component {
 					if (diffTime >= expireTime)
 						this._getNews(page, key)
 					else
-						this._setNewsData(page, key, newsItems, true)
+						this._setNewsData(page, key, newsItems)
 				})
 			} else {
 				this._getNews(page, key)
@@ -87,6 +89,7 @@ export default class List extends Component {
 			.then((response) => response.json())
 			.then((responseJson) => {
 
+				this._cacheRequest(page, key, responseJson)
 				this._setNewsData(page, key, responseJson)
 				return
 			})
@@ -95,7 +98,14 @@ export default class List extends Component {
 			})
 	}
 
-	_setNewsData(page = 0, key = 'news', data, fromCache = false) {
+	// Caching JSON data to avoid unecessary connections
+	_cacheRequest(page = 0, key = 'news', data) {
+		AsyncStorage.setItem('newsData-' + key + page, JSON.stringify(data))
+		AsyncStorage.setItem('time-' + key + page, new Date().getTime().toString())
+	}
+
+	// Feeding the component with the actual data
+	_setNewsData(page = 0, key = 'news', data) {
 		let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
 
 		this.setState({
@@ -104,8 +114,6 @@ export default class List extends Component {
 			loading: false
 		})
 
-		AsyncStorage.setItem('newsData-' + key + page, JSON.stringify(data))
-		AsyncStorage.setItem('time-' + key + page, new Date().getTime().toString())
 	}
 
 	render() {
