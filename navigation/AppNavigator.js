@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Navigator, BackAndroid } from 'react-native'
 import PushNotification from 'react-native-push-notification'
 // Local imports
-import List from '../components/List'
+import CardList from '../components/list/CardList'
 import Item from '../components/Item'
 import NotificationHandler from './NotificationHandler'
 
@@ -45,7 +45,7 @@ export default class AppNavigator extends Component {
 		switch (route.name) {
 			case 'list':
 				return (
-					<List
+					<CardList
 						{ ...globalNavigatorProps }
 					/>
 				)

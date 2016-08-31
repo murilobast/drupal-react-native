@@ -3,7 +3,7 @@
 */
 
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, View, Text, Image } from 'react-native'
+import { StatusBar, StyleSheet, Dimensions, View, Text, Image } from 'react-native'
 import ParallaxScrollView from 'react-native-parallax-scroll-view'
 // Local imports
 import Body from './Body'

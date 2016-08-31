@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, View, Animated, ScrollView, TouchableNativeFeedback, Text } from 'react-native'
 // Local imports
-import colors from '../helpers/colors'
+import colors from '../../helpers/colors'
 
 const { height, width } = Dimensions.get('window')
 const SPRING_CONFIG = { tension: 5, friction: 3 }
