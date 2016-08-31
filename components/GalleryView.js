@@ -2,8 +2,10 @@
 	Renderiza a galeria
 */
 import React, { Component } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, Dimensions, View, Text } from 'react-native'
 import Gallery from 'react-native-gallery'
+
+const { height, width } = Dimensions.get('window')
 
 export default class GalleryView extends Component {
 	constructor(props) {
@@ -33,12 +35,15 @@ export default class GalleryView extends Component {
 
 	render() {
 		return (
+
+			<Gallery
+				style={ styles.gallery }
+				images={ this.state.images }
+			/>
+		)
+		return (
 			<View>
 				<Text style={ styles.title }>{ this.state.title }</Text>
-				<Gallery
-					style={ styles.gallery }
-					images={ this.state.images }
-				/>
 			</View>
 		)
 	}
@@ -54,6 +59,6 @@ const styles = StyleSheet.create({
 	gallery: {
 		flex: 1,
 		backgroundColor: 'black',
-		height: 200
+		height: (width - 40) * .56
 	}
 })

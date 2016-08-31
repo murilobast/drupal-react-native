@@ -26,15 +26,19 @@ export default class Body extends Component {
 	}
 	
 	_renderNode(node, index, parent, type) {
-		let name = node.name
+		if (node.type === 'block') {
+			let attrs = node.attribs
+			let galleryRgxp =/node-ct-gallery/
 
-		if (name === 'drupal-entity') {
-			let uid = node.attribs['data-entity-uuid']
-			let url = 'http://rest.murilobastos.com/gallery/' + uid
+			if (galleryRgxp.test(attrs.class)) {
+				let nidRgxp = /node-([0-9]*)/
+				let nid = attrs.id.match(nidRgxp)[1]
+				let url = 'http://drupal.murilobastos.com/gallery/' + nid
 
-			return (
-				<GalleryView url={ url }/>
-			)
+				return (
+					<GalleryView key={ index } url={ url }/>
+				)
+			}
 		}
 	}
 }
