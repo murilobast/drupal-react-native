@@ -3,6 +3,7 @@ import { Navigator, BackAndroid } from 'react-native'
 import PushNotification from 'react-native-push-notification'
 // Local imports
 import CardList from '../components/list/CardList'
+import Disqus from '../components/Disqus'
 import Item from '../components/Item'
 import NotificationHandler from './NotificationHandler'
 
@@ -54,6 +55,14 @@ export default class AppNavigator extends Component {
 				return (
 					<Item
 						data={ route.data }
+						{ ...globalNavigatorProps }
+					/>
+				)
+
+			case 'disqus':
+				return (
+					<Disqus
+						id={ route.id }
 						{ ...globalNavigatorProps }
 					/>
 				)
