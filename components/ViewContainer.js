@@ -24,7 +24,7 @@ export default class ViewContainer extends Component {
 						navIcon={ require('image!ic_menu_white_24dp') }
 						onIconClicked={() => { this._drawer.openDrawer() }}
 					>
-						<Text style={ styles.titleFirst }>D8</Text>
+						<Text style={ styles.titleFirst }>DRUPAL</Text>
 						<Text style={ styles.titleSecond }>NATIVE</Text>
 					</ToolbarAndroid>
 					<View style={ styles.content }>
