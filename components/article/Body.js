@@ -1,9 +1,10 @@
 /*
 	Transforma o conteudo do corpo da matéria em componentes nativos
+	** Video do youtube nativo no android ainda não é suportado pelo React Native **
 */
 
 import React, { Component } from 'react'
-import { StyleSheet, Dimensions, Image } from 'react-native'
+import { StyleSheet, Dimensions, WebView, View, Image, Text } from 'react-native'
 import HTMLRender from 'react-native-html-render'
 // Local imports
 import colors from '../../helpers/colors'
@@ -25,6 +26,7 @@ export default class Body extends Component {
 		)
 	}
 	
+	// Fazer um helper para parsear o conteudo ao invez de fazer tudo nesse metodo
 	_renderNode(node, index, parent, type) {
 		if (node.type === 'block') {
 			let attrs = node.attribs
@@ -38,6 +40,54 @@ export default class Body extends Component {
 				return (
 					<GalleryView key={ index } url={ url }/>
 				)
+			}
+
+			if (typeof node.children !== 'undefined') {
+				let children = node.children[0]
+
+				if (children.name === 'mediawrapper') {
+					let source = {}
+
+					for (let i = 0; i < children.children.length; i++) {
+						let item = children.children[i]
+
+						if (item.name === 'video') {
+							
+							source = item.children[0]
+							break
+						}
+					}
+
+					let rgxp = /v=([a-zA-Z0-9]+)$/
+					let match = source.attribs.src.match(rgxp)
+
+					if (match.length) {
+						let id = match[1]
+						let uri = 'http://www.youtube.com/embed/' + id
+						let videoWidth = (width - 60) * .562
+						let html = 
+							`<iframe 
+								src="${uri}"
+								width="${width - 60}"
+								height="${videoWidth}"
+								frameborder="0"
+								allowfullscreen
+								webkitAllowFullScreen
+								mozallowfullscreen
+							>
+							</iframe>`
+
+						return (
+							<View>
+								<WebView
+									key={ index }
+									source={{ html }}
+									style={{ height: videoWidth }}
+								/>								
+							</View>
+						)
+					}
+				}
 			}
 		}
 	}

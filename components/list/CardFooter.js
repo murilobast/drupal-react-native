@@ -73,8 +73,7 @@ const styles = StyleSheet.create({
 
 	image: {
 		height: 24,
-		resizeMode: Image.resizeMode.contain,
-		overlayColor: 'red'
+		resizeMode: Image.resizeMode.contain
 	},
 
 	views: {
