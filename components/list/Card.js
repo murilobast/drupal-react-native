@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 // Local imports
 import Tabs from '../tabs/Tabs'
-import Precontent from '../Precontent'
+import CardFooter from './CardFooter'
 
 const { height, width } = Dimensions.get('window')
 
@@ -32,7 +32,7 @@ export default class Card extends Component {
 					<View style={ styles.itemTextContainer }>
 						<Text style={ styles.itemText }>{ item.title }</Text>
 					</View>
-					<Precontent data={ item }/>
+					<CardFooter data={ item }/>
 				</View>
 			</TouchableNativeFeedback>
 		)
@@ -40,7 +40,7 @@ export default class Card extends Component {
 
 	// Navega para a rota do item clicado
 	_navigateToItem(item) {
-		this.props.navigator.push({ name: 'item', data: item })
+		this.props.navigator.push({ name: 'article', data: item })
 	}
 }
 
@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
 	item: {
 		marginVertical: 10,
 		backgroundColor: '#fff',
-		paddingBottom: 5,
 		elevation: 2,
 		overflow: 'hidden',
 		borderRadius: 3,
