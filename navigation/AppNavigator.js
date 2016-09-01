@@ -3,8 +3,8 @@ import { Navigator, BackAndroid } from 'react-native'
 import PushNotification from 'react-native-push-notification'
 // Local imports
 import CardList from '../components/list/CardList'
+import Article from '../components/article/Article'
 import Disqus from '../components/Disqus'
-import Item from '../components/Item'
 import NotificationHandler from './NotificationHandler'
 
 let navigator; 
@@ -32,7 +32,7 @@ export default class AppNavigator extends Component {
 				return
 			
 			this.setState({ pushed: true })
-			navigator.push({ name: 'item', data: data })
+			navigator.push({ name: 'article', data: data })
 			// Gambis pra poder receber notificação depois de renderizar
 			setTimeout(() => {
 				this.setState({ pushed: false })
@@ -51,9 +51,9 @@ export default class AppNavigator extends Component {
 					/>
 				)
 
-			case 'item':
+			case 'article':
 				return (
-					<Item
+					<Article
 						data={ route.data }
 						{ ...globalNavigatorProps }
 					/>
