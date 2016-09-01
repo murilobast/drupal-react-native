@@ -35,15 +35,12 @@ export default class GalleryView extends Component {
 
 	render() {
 		return (
-
-			<Gallery
-				style={ styles.gallery }
-				images={ this.state.images }
-			/>
-		)
-		return (
 			<View>
 				<Text style={ styles.title }>{ this.state.title }</Text>
+				<Gallery
+					style={ styles.gallery }
+					images={ this.state.images }
+				/>
 			</View>
 		)
 	}
@@ -59,6 +56,6 @@ const styles = StyleSheet.create({
 	gallery: {
 		flex: 1,
 		backgroundColor: 'black',
-		height: (width - 40) * .56
+		height: (width - 40) * .562
 	}
 })
