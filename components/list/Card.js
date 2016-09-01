@@ -2,14 +2,7 @@
 	To do
 */
 import React, { Component } from 'react'
-import {
-	StyleSheet,
-	Dimensions,
-	View,
-	Text,
-	Image,
-	TouchableNativeFeedback
-} from 'react-native'
+import { StyleSheet, Dimensions, View, Text, Image, TouchableNativeFeedback } from 'react-native'
 // Local imports
 import Tabs from '../tabs/Tabs'
 import CardFooter from './CardFooter'

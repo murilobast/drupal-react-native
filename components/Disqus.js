@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
 	disqus: {
 		flex: 1,
 		height: height - 80,
-		width: width
+		width: width,
+		padding: 20
 	}
 })

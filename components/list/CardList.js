@@ -125,7 +125,7 @@ export default class CardList extends Component {
 
 		return (
 			<View style={ styles.list }>
-				<Tabs data={ tabs } getData={ this._checkCache } />
+				
 				<ListView
 					// Quantidade de itens para serem renderizados no primeiro scroll
 					initialListSize={ 6 }

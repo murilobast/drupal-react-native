@@ -7,16 +7,17 @@ import { StyleSheet, Dimensions, View, Animated, ScrollView, TouchableNativeFeed
 import colors from '../../helpers/colors'
 
 const { height, width } = Dimensions.get('window')
-const SPRING_CONFIG = { tension: 5, friction: 3 }
+const SPRING_CONFIG = { tension: 5, friction: 5 }
+let scroll = 0
 
 export default class Tabs extends Component {
 	constructor(props) {
 		super(props)
 
 		this.state = {
-			selectedTab: 'news',
+			scrollView: {},
 			pan: new Animated.ValueXY(),
-			indicatorPos: 0
+			container: new Animated.ValueXY()
 		}
 	}
 
@@ -27,8 +28,12 @@ export default class Tabs extends Component {
 		]
 	}
 
+	componentDidUpdate() {
+		this._moveIndicator(this.props.activeTab)
+	}
+
 	render() {
-		let tabs = this.props.data
+		let tabs = this.props.tabs
 
 		return (
 			<View style={ styles.container }>
@@ -36,15 +41,16 @@ export default class Tabs extends Component {
 					style={ styles.tabs }
 					horizontal={ true }
 					showsHorizontalScrollIndicator={ false }
+					ref={(ref) => this._scrollView = ref }
 				>
-					{tabs.map((tab, i) => {
+					{tabs.map((tab, key) => {
 						return (
 							<TouchableNativeFeedback
-								key={ i }
-								onPress={(e) => { this._updateList(tab.key) }}
+								key={ key }
+								onPress={(e) => { this._updateList(key) }}
 							>
 								<View style={ styles.tab }>
-									<Text style={ styles.tabTitle }> { tab.name } </Text>
+									<Text style={ styles.tabTitle }> { tab } </Text>
 								</View>
 							</TouchableNativeFeedback>
 						)
@@ -58,24 +64,22 @@ export default class Tabs extends Component {
 
 	_moveIndicator(key) {
 		let itemWidth = width / 3
-		let tabs = this.props.data
+		let tabs = this.props.tabs
+		let containerScroll = (key - 1) * itemWidth
 
-		for (let i = 0; i < tabs.length; i++) {
-			if (tabs[i].key === key) {
-				Animated.spring(this.state.pan, {
-			          ...SPRING_CONFIG,
-			          toValue: { y: 0, x: i * itemWidth }
-			    }).start()
+		console.log(containerScroll)
+		this._scrollView.scrollTo({ x: containerScroll < 0 ? 0 : containerScroll }, true)
 
-				break
-			}
-		}
+		Animated.spring(this.state.pan, {
+			...SPRING_CONFIG,
+			toValue: { y: 0, x: key * itemWidth }
+		}).start()
+
 	}
 
 	_updateList(key) {
-		this.setState({ selectedTab: key })
 		this._moveIndicator(key)
-		this.props.getData(0, key)
+		this.props.goToPage(key)
 	}
 }
 
