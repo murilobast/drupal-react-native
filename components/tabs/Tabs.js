@@ -16,8 +16,7 @@ export default class Tabs extends Component {
 
 		this.state = {
 			scrollView: {},
-			pan: new Animated.ValueXY(),
-			container: new Animated.ValueXY()
+			pan: new Animated.ValueXY()
 		}
 	}
 
@@ -29,7 +28,12 @@ export default class Tabs extends Component {
 	}
 
 	componentDidUpdate() {
-		this._moveIndicator(this.props.activeTab)
+		let key = this.props.activeTab
+		let itemWidth = width / 3
+		let containerScroll = (key - 1) * itemWidth
+
+		this._scrollView.scrollTo({ x: containerScroll < 0 ? 0 : containerScroll }, true)
+		this._moveIndicator(key)
 	}
 
 	render() {
@@ -64,11 +68,7 @@ export default class Tabs extends Component {
 
 	_moveIndicator(key) {
 		let itemWidth = width / 3
-		let tabs = this.props.tabs
 		let containerScroll = (key - 1) * itemWidth
-
-		console.log(containerScroll)
-		this._scrollView.scrollTo({ x: containerScroll < 0 ? 0 : containerScroll }, true)
 
 		Animated.spring(this.state.pan, {
 			...SPRING_CONFIG,

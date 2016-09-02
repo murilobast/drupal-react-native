@@ -13,7 +13,6 @@ import {
 	ListView,
 	Text,
 	Image,
-	TouchableNativeFeedback,
 	RefreshControl
 } from 'react-native'
 // Local imports
@@ -23,7 +22,7 @@ import Card from './Card'
 
 const { height, width } = Dimensions.get('window')
 
-export default class CardList extends Component {
+export default class Feed extends Component {
 	constructor(props) {
 		super(props)
 
@@ -34,8 +33,9 @@ export default class CardList extends Component {
 			itemsDataSource: ds.cloneWithRows([]),
 			refreshing: false,
 			loading: true,
-			key: 'news'
+			key: props.rest
 		}
+
 		// Evita bindar o this no metodo render (performance)
 		this._getNews = this._getNews.bind(this)
 		this._onRefresh = this._onRefresh.bind(this)
@@ -118,14 +118,8 @@ export default class CardList extends Component {
 	}
 
 	render() {
-		let tabs = [
-			{ name: 'RECENTES', key: 'news' },
-			{ name: 'DESTAQUES', key: 'popular' }
-		]
-
 		return (
 			<View style={ styles.list }>
-				
 				<ListView
 					// Quantidade de itens para serem renderizados no primeiro scroll
 					initialListSize={ 6 }
@@ -147,7 +141,7 @@ export default class CardList extends Component {
 				<ActivityIndicator
 					color={ '#0099ff' }
 					animating={ this.state.loading }
-					size={ 'large' }
+					size={ 'small' }
 					style={ styles.centering }
 				/>
 			</View>

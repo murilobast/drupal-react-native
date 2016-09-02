@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 	},
 
 	item: {
-		width: (width - 40) / 4,
+		width: (width - 20) / 4,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		borderRightWidth: 1,
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
 	},
 
 	star: {
-		height: 34
+		height: 34,
+		width: 34
 	}
 })

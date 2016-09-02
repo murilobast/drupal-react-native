@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Navigator, BackAndroid } from 'react-native'
 import PushNotification from 'react-native-push-notification'
 // Local imports
-import ListTabs from '../components/list/ListTabs'
+import ListTabs from '../components/feed/ListTabs'
 import Article from '../components/article/Article'
 import Disqus from '../components/Disqus'
 import NotificationHandler from './NotificationHandler'

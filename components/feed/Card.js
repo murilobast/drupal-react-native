@@ -13,6 +13,14 @@ export default class Card extends Component {
 	render() {
 		let item = this.props.item
 
+		if (/<img/.test(item.image)) {
+			let rgxp = /src="(http:\/\/[a-zA-Z-0-9].*\.jpg\?itok=[a-zA-Z-0-9]*)/
+			let match = item.image.match(rgxp)
+			if (match.length)
+				item.image = match[1]
+
+		}
+
 		return (
 			<TouchableNativeFeedback
 				onPress={(e) => { this._navigateToItem(item) }}
